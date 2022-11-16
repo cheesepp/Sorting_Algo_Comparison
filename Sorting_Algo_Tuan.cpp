@@ -34,6 +34,8 @@ Flash
 
 #include <iostream>
 #include <time.h>
+#include <vector>
+#include <math.h>
 using namespace std;
 
 ////Initialize functions
@@ -56,8 +58,9 @@ int* createTemp(int *a, int n) {
 //For Testing
 //Input array
 void inputArray(int* &a, int n) {
-    cout << "==============INPUT ARRAY==============";
+    cout << "==============INPUT ARRAY==============\n";
     for (int i = 0; i < n; i++) {
+        cout << "a[" << i << "]: ";
         cin >> a[i];
     }
 }
@@ -69,7 +72,7 @@ void printArray(int* a, int n) {
     }
 }
 
-
+//##################################################
 ////Sorting functions
 //Selection sort
 //Find the smallest ele from unsorted array and swap with i
@@ -98,8 +101,14 @@ void selectionSort(int* a, int n, unsigned int &comparisonNum, clock_t &timeCoun
     clock_t end = clock();
     //translate to ms
     timeCount = (float)(end - start)/CLOCKS_PER_SEC;
-}
+    printArray(temp, n);
 
+}
+//End
+//##################################################
+
+
+//##################################################
 //Bubble sort
 //Compare 2 ele at the time and swap them -> increment to next eles
 //Highest ele will go to the right
@@ -123,50 +132,70 @@ void bubbleSort(int* a, int n, unsigned int &comparisonNum, clock_t &timeCount) 
     clock_t end = clock();
 
     timeCount = (float)(end - start)/CLOCKS_PER_SEC;
-}
+    printArray(temp, n);
 
-void mergeArrays(int* &a, int l, int m, int r, unsigned int &comparisonNum) {
-    int nl = 0;
-    int nr = 0;
-    int na = 0;
+}
+//End
+//##################################################
+
+//##################################################
+//Merge sort
+void mergeArrays(int* a, int l, int m, int r, unsigned int &comparisonNum) {
     //First half
     int x = m - l + 1;
     //Second half
-    int y = r - m;
+    int y =  r - (m + 1) + 1;
     //create 2 halves array
     int* lArray = new int[x];
     int* rArray = new int[y];
 
-
+    //Put both sides of a into left and right array
     for (int i = 0; i < x; i++)
         lArray[i] = a[l + i];
-    for (int i = 0; i < y; i++)
-        rArray[i] = a[m + l + i];
-    //Merge 2 arrays
-    while (nl < x && nr < y) {
-        if (lArray[nr] <= rArray[nl]) {
-            a[na++] = lArray[nl++];
+
+    for (int j = 0; j < y; j++)
+        rArray[j] = a[m + 1 + j];
+
+    int il = 0;
+    int ir = 0;
+    //Merged array will start at each l
+    int ia = l;
+    //Merge 2 arrays by adding the lesser element from each arrays
+    while (il < x && ir < y) {
+        if (lArray[il] < rArray[ir]) {
+            a[ia] = lArray[il];
+            ia++; 
+            il++;
         }
 
-        else if(lArray[nr] > rArray[nl]) {
-            a[na++] = rArray[nr++];
+        else {
+            a[ia] = rArray[ir];
+            ia++;
+            ir++;
         }
     }
 
     //Put remaining in a
-    while(nl < x) {
-        a[na++] = lArray[nl++];
+    while(il < x) {
+        a[ia] = lArray[il];
+        ia++;
+        il++;
     }
-    while(nr < x) {
-        a[na++] = rArray[nr++];
+    while(ir < y) {
+        a[ia] = rArray[ir];
+        ia++;
+        ir++;
     }
 
+    delete[] lArray;
+    delete[] rArray;
 }
 
 void mergeSortFunction(int* a, int l, int r, unsigned int &comparisonNum) {
     if (l < r) {
+        //Find middle point
         int m = (l + r)/2;
-
+        //Call recursive
         mergeSortFunction(a, l, m, comparisonNum);
         mergeSortFunction(a, m + 1, r, comparisonNum);
         mergeArrays(a, l, m, r, comparisonNum);
@@ -181,7 +210,82 @@ void mergeSort(int* a, int n, unsigned int &comparisonNum, clock_t &timeCount) {
     clock_t end = clock();
 
     timeCount = (float)(end - start)/CLOCKS_PER_SEC;
+        
+    printArray(temp, n);
+
+}
+//End
+//##################################################
+
+
+//##################################################
+//Radix sort
+int maxDigits(int* a, int n, unsigned int &comparisonNum) {
+	int max = a[0];
+
+	for (int i = 1; i < n; i++) {
+		if (a[i] > max)
+			max = a[i];
+	}
+
+	int count = 0;
+
+	while (max != 0) {
+		count++;
+		max /= 10;
+	}
+
+	return count;
+}
+void radixSortFunction(int* a, int n, unsigned int &comparisonNum) { //
+	// Count max digits
+	int maxDig = maxDigits(a, n, comparisonNum);
+
+	vector < vector<int> > hash(10);
+	// To mark if the nth position of hash table contains value or not
+	for (int i = 1; i <= maxDig; i++) { // i=1, array is sorted by increasing order of units; i=2,.....of dozens,.... 
+		for (int j = 0; j < n; j++) {
+			int remain = (a[j] / (int)pow(10, i - 1)) % 10; // get the digits of unit, dozen, hundred,...
+			hash[remain].push_back(a[j]); // if this array needs sorting by decreasing, let hash[9-main].
+		}
+		int count = 0; // Assign hash table to array
+
+		for (int k = 0; k < 10; k++) {
+			for (int l = 0;l < hash[k].size();l++){
+				a[count++] = hash[k][l];
+			}
+			hash[k].clear();
+		}
+	}
 }
 
+void radixSort(int* a, int n, unsigned int &comparisonNum, clock_t timeCount) {
+    int* temp = createTemp(a, n);
+    clock_t start = clock();
+    radixSortFunction(temp, n ,comparisonNum);
+    clock_t end = clock();
+
+    timeCount = (float)(end - start)/CLOCKS_PER_SEC;
+        
+    printArray(temp, n);
+}
+//End
+//##################################################
+
+
+
+int main() {
+    int n = 0;
+    cout << "Input: ";
+    cin >> n;
+    
+    unsigned int count = 0;
+    clock_t time;
+    int* a = new int[n];
+    inputArray(a, n);
+    radixSort(a, n, count, time);
+
+    return 1;
+}
 
 
