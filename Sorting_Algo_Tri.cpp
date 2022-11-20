@@ -74,7 +74,7 @@ void printArray(int* a, int n) {
 
 //##################################################
 //Insertion sort
-void insertionSortFunction(int* a, int n, unsigned long long& comparisonNum) {
+void compInsertionSort(int* a, int n, unsigned long long& comparisonNum) {
     int i, key, j;
     for (i = 1; ++comparisonNum && i < n; i++)
         
@@ -91,12 +91,12 @@ void insertionSortFunction(int* a, int n, unsigned long long& comparisonNum) {
 }
 
 
-void insertionSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
+void timeInsertionSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     chrono::steady_clock::time_point start = chrono::steady_clock::now();
     // Run sort
-    insertionSortFunction(temp, n, comparisonNum);
+    compInsertionSort(temp, n, comparisonNum);
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     timeCount = end - start;
     printArray(temp, n);
@@ -136,7 +136,7 @@ void heapify(int* a, int n, int i, unsigned long long &comparisonNum)
 }
 
 // main function to do heap sort 
-void heapSortFunction(int* a, int n, unsigned long long& comparisonNum)
+void compHeapSort(int* a, int n, unsigned long long& comparisonNum)
 {
     // Build heap (reaange aay) 
     for (int i = n / 2 - 1; ++comparisonNum && i >= 0; i--)
@@ -154,14 +154,14 @@ void heapSortFunction(int* a, int n, unsigned long long& comparisonNum)
 }
 
 // Time complex O(nlogn)
-void heapSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
+void timeHeapSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     printArray(temp, n);
 
     std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
     // Run sort
-    heapSortFunction(temp, n, comparisonNum);
+    compHeapSortFunction(temp, n, comparisonNum);
     auto end = std::chrono::steady_clock::now();
     timeCount = end - start;
     printArray(temp, n);
@@ -200,7 +200,7 @@ int partition(int* a, int low, int high, unsigned long long &comparisonNum)
 a[] --> aay to be sorted,
 low --> Starting index,
 high --> Ending index */
-void quickSortFunction(int *a, int low, int high, unsigned long long& comparisonNum)
+void compQuickSort(int *a, int low, int high, unsigned long long& comparisonNum)
 {
     if (low < high)
     {
@@ -210,17 +210,17 @@ void quickSortFunction(int *a, int low, int high, unsigned long long& comparison
 
         // Separately sort elements before  
         // partition and after partition  
-        quickSortFunction(a, low, pi - 1, comparisonNum);
-        quickSortFunction(a, pi + 1, high, comparisonNum);
+        compQuickSort(a, low, pi - 1, comparisonNum);
+        compQuickSort(a, pi + 1, high, comparisonNum);
     }
 }
 
-void quickSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
+void timeQuickSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
     // Run sort
-    quickSortFunction(temp, 0, n-1, comparisonNum);
+    compQuickSort(temp, 0, n-1, comparisonNum);
     chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     timeCount = end - start;
     printArray(temp, n);
@@ -232,7 +232,7 @@ void quickSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::du
 
 //##################################################
 //Shaker sort
-void shakerSortFunction(int *a, int n, unsigned long long &comparisonNum)
+void compShakerSort(int *a, int n, unsigned long long &comparisonNum)
 {
     int left = 0;
     int right = n - 1;
@@ -261,12 +261,12 @@ void shakerSortFunction(int *a, int n, unsigned long long &comparisonNum)
 }
 
 
-void shakerSort(int* a, int n, unsigned long long& comparisonNum, chrono::duration<double>& timeCount) {
+void timeShakerSort(int* a, int n, unsigned long long& comparisonNum, chrono::duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     chrono::steady_clock::time_point start = chrono::steady_clock::now();
     // Run sort
-    quickSortFunction(temp, 0, n - 1, comparisonNum);
+    compShakerSort(temp, n, comparisonNum);
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     timeCount = end - start;
     printArray(temp, n);
@@ -279,7 +279,7 @@ void shakerSort(int* a, int n, unsigned long long& comparisonNum, chrono::durati
 //##################################################
 // Counting sort
 // Function that sort the given a
-void countingSortFunction(int* a, int n, unsigned long long& comparisonNum)
+void compCountingSort(int* a, int n, unsigned long long& comparisonNum)
 {
     int *output = new int[n]; // The output will have sorted an array
     int max = a[0];
@@ -322,12 +322,12 @@ void countingSortFunction(int* a, int n, unsigned long long& comparisonNum)
     delete[] count_array;
 }
 
-void countingSort(int* a, int n, unsigned long long& comparisonNum, chrono::duration<double>& timeCount) {
+void timeCountingSort(int* a, int n, unsigned long long& comparisonNum, chrono::duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     chrono::steady_clock::time_point start = chrono::steady_clock::now();
     // Run sort
-    countingSortFunction(temp, n, comparisonNum);
+    compCountingSort(temp, n, comparisonNum);
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     timeCount = end - start;
     printArray(temp, n);
@@ -352,7 +352,7 @@ int main() {
     std::chrono::duration<double> time;
     int* a = new int[n];
     //inputArray(a, n);
-    countingSort(a, n, count, time);
+    timeCountingSort(a, n, count, time);
     cout << "comparison Num" << count;
     delete[]a;
 
