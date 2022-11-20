@@ -1,4 +1,4 @@
-﻿/*Requirements
+/*Requirements
     2 Mode comparison (so sánh 2 algo) và algorithm (chạy 1 algo)
     1. Đọc a lấy dữ liệu -> sort -> chọn option (time hay comparison or both)
     2. Chạy algo với size, order mình nhập
@@ -32,7 +32,7 @@ Counting
 #include <time.h>
 #include <chrono>
 using namespace std;
-
+using namespace std::chrono;
 //Create temp
 int* createTemp(int* a, int n) {
     int* temp = new int[n];
@@ -77,7 +77,7 @@ void printArray(int* a, int n) {
 void compInsertionSort(int* a, int n, unsigned long long& comparisonNum) {
     int i, key, j;
     for (i = 1; ++comparisonNum && i < n; i++)
-        
+
     {
         key = a[i];
         j = i - 1;
@@ -91,17 +91,16 @@ void compInsertionSort(int* a, int n, unsigned long long& comparisonNum) {
 }
 
 
-void timeInsertionSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
+void timeInsertionSort(int* a, int n, unsigned long long& comparisonNum, duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
-    chrono::steady_clock::time_point start = chrono::steady_clock::now();
+    auto start = high_resolution_clock::now();
     // Run sort
     compInsertionSort(temp, n, comparisonNum);
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    timeCount = end - start;
+    auto end = high_resolution_clock::now();
+    timeCount = duration_cast<microseconds>(end - start);
     printArray(temp, n);
-    cout << "Completed at "  << fixed << timeCount.count() << "ms.";
-    delete[]temp;
+    delete[] temp;
 }
 //End
 //##################################################
@@ -110,7 +109,7 @@ void timeInsertionSort(int* a, int n, unsigned long long& comparisonNum, std::ch
 //Heap sort
 // To heapify a subtree rooted with node i which is 
 // an index in a[]. n is size of heap 
-void heapify(int* a, int n, int i, unsigned long long &comparisonNum)
+void heapify(int* a, int n, int i, unsigned long long& comparisonNum)
 {
     int largest = i; // Initialize largest as root 
     int l = 2 * i + 1; // left = 2*i + 1 
@@ -154,19 +153,16 @@ void compHeapSort(int* a, int n, unsigned long long& comparisonNum)
 }
 
 // Time complex O(nlogn)
-void timeHeapSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
+void timeHeapSort(int* a, int n, unsigned long long& comparisonNum, duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
-    printArray(temp, n);
-
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+    auto start = high_resolution_clock::now();
     // Run sort
-    compHeapSortFunction(temp, n, comparisonNum);
-    auto end = std::chrono::steady_clock::now();
-    timeCount = end - start;
+    compHeapSort(temp, n, comparisonNum);
+    auto end = high_resolution_clock::now();
+    timeCount = duration_cast<microseconds>(end - start);
     printArray(temp, n);
-    cout << "Completed at " << fixed << timeCount.count() << "ms.";
-    delete[]temp;
+    delete[] temp;
 }
 //End
 //##################################################
@@ -178,7 +174,7 @@ the pivot element at its correct position in sorted
 aay, and places all smaller (smaller than pivot)
 to left of pivot and all greater elements to right
 of pivot */
-int partition(int* a, int low, int high, unsigned long long &comparisonNum)
+int partition(int* a, int low, int high, unsigned long long& comparisonNum)
 {
     int pivot = a[high]; // pivot  
     int i = (low - 1); // Index of smaller element  
@@ -200,7 +196,7 @@ int partition(int* a, int low, int high, unsigned long long &comparisonNum)
 a[] --> aay to be sorted,
 low --> Starting index,
 high --> Ending index */
-void compQuickSort(int *a, int low, int high, unsigned long long& comparisonNum)
+void compQuickSort(int* a, int low, int high, unsigned long long& comparisonNum)
 {
     if (low < high)
     {
@@ -215,29 +211,28 @@ void compQuickSort(int *a, int low, int high, unsigned long long& comparisonNum)
     }
 }
 
-void timeQuickSort(int* a, int n, unsigned long long& comparisonNum, std::chrono::duration<double>& timeCount) {
+void timeQuickSort(int* a, int n, unsigned long long& comparisonNum, duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
-    chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+    auto start = high_resolution_clock::now();
     // Run sort
-    compQuickSort(temp, 0, n-1, comparisonNum);
-    chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-    timeCount = end - start;
+    compQuickSort(temp,0, n - 1, comparisonNum);
+    auto end = high_resolution_clock::now();
+    timeCount = duration_cast<microseconds>(end - start);
     printArray(temp, n);
-    cout << "Completed at " << fixed << timeCount.count() << "ms.";
-    delete[]temp;
+    delete[] temp;
 }
 //End
 //##################################################
 
 //##################################################
 //Shaker sort
-void compShakerSort(int *a, int n, unsigned long long &comparisonNum)
+void compShakerSort(int* a, int n, unsigned long long& comparisonNum)
 {
     int left = 0;
     int right = n - 1;
     int k = 0;
-    while (++comparisonNum && left < right)
+    while (++comparisonNum&& left < right)
     {
         for (int i = left; ++comparisonNum && i < right; i++)
         {
@@ -261,17 +256,16 @@ void compShakerSort(int *a, int n, unsigned long long &comparisonNum)
 }
 
 
-void timeShakerSort(int* a, int n, unsigned long long& comparisonNum, chrono::duration<double>& timeCount) {
+void timeShakerSort(int* a, int n, unsigned long long& comparisonNum, duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
-    chrono::steady_clock::time_point start = chrono::steady_clock::now();
+    auto start = high_resolution_clock::now();
     // Run sort
     compShakerSort(temp, n, comparisonNum);
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    timeCount = end - start;
+    auto end = high_resolution_clock::now();
+    timeCount = duration_cast<microseconds>(end - start);
     printArray(temp, n);
-    cout << "Completed at " << fixed << timeCount.count() << "ms.";
-    delete[]temp;
+    delete[] temp;
 }
 // End
 //##################################################
@@ -281,7 +275,7 @@ void timeShakerSort(int* a, int n, unsigned long long& comparisonNum, chrono::du
 // Function that sort the given a
 void compCountingSort(int* a, int n, unsigned long long& comparisonNum)
 {
-    int *output = new int[n]; // The output will have sorted an array
+    int* output = new int[n]; // The output will have sorted an array
     int max = a[0];
     int min = a[0];
 
@@ -296,7 +290,7 @@ void compCountingSort(int* a, int n, unsigned long long& comparisonNum)
 
     int k = max - min + 1; // Size of count array
 
-    int *count_array = new int [k]; // Create a count_array to store count of each individual a value
+    int* count_array = new int[k]; // Create a count_array to store count of each individual a value
     for (i = 0; ++comparisonNum && i < k; i++)
         count_array[i] = 0;
 
@@ -325,14 +319,13 @@ void compCountingSort(int* a, int n, unsigned long long& comparisonNum)
 void timeCountingSort(int* a, int n, unsigned long long& comparisonNum, chrono::duration<double>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
-    chrono::steady_clock::time_point start = chrono::steady_clock::now();
+    auto start = high_resolution_clock::now();
     // Run sort
     compCountingSort(temp, n, comparisonNum);
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    timeCount = end - start;
+    auto end = high_resolution_clock::now();
+    timeCount = duration_cast<microseconds>(end - start);
     printArray(temp, n);
-    cout << "Completed at " << fixed << timeCount.count() << "ms.";
-    delete[]temp;
+    delete[] temp;
 }
 // End
 //##################################################
@@ -349,11 +342,11 @@ int main() {
     cin >> n;
 
     unsigned long long count = 0;
-    std::chrono::duration<double> time;
+    duration<double> time;
     int* a = new int[n];
     //inputArray(a, n);
-    timeCountingSort(a, n, count, time);
-    cout << "comparison Num" << count;
+    timeShakerSort(a, n, count, time);
+    cout << "comparison Num: " << count;
     delete[]a;
 
     return 0;
