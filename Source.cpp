@@ -67,14 +67,14 @@ void compSelectionSort(int *a, int n, unsigned long long &comparisonNum) {
     
 }
 //Time complex O(n^2)
-void timeSelectionSort(int* a, int n, unsigned long long &comparisonNum, duration<double>& timeCount) {
+void timeSelectionSort(int* a, int n, unsigned long long &comparisonNum, duration<double, milli>& timeCount) {
     int* temp = createTemp(a, n);
     auto start = high_resolution_clock::now();  
     compSelectionSort(temp, n, comparisonNum);
     
     auto end = high_resolution_clock::now();
     //translate to ms
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
     printArray(temp, n);
     delete[] temp;
 }
@@ -101,14 +101,14 @@ void compInsertionSort(int* a, int n, unsigned long long& comparisonNum) {
     }
 }
 
-void timeInsertionSort(int* a, int n, unsigned long long& comparisonNum, duration<double>& timeCount) {
+void timeInsertionSort(int* a, int n, unsigned long long& comparisonNum, duration<double, milli>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     auto start = high_resolution_clock::now();
     // Run sort
     compInsertionSort(temp, n, comparisonNum);
     auto end = high_resolution_clock::now();
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
     printArray(temp, n);
     delete[] temp;
 }
@@ -133,14 +133,14 @@ void compBubbleSort(int* a, int n, unsigned long long &comparisonNum) {
     }
 }
 //Time complex O(n^2)
-void timeBubbleSort(int* a, int n, unsigned long long &comparisonNum, duration<double>& timeCount) {
+void timeBubbleSort(int* a, int n, unsigned long long &comparisonNum, duration<double, milli>& timeCount) {
     int* temp = createTemp(a, n);
     auto start = high_resolution_clock::now();  
     //Run sort
     compBubbleSort(temp, n, comparisonNum);
     auto end = high_resolution_clock::now();  
 
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
     printArray(temp, n);
     delete[] temp;
 
@@ -181,14 +181,14 @@ void compShakerSort(int* a, int n, unsigned long long& comparisonNum)
     }
 }
 
-void timeShakerSort(int* a, int n, unsigned long long& comparisonNum, duration<double>& timeCount) {
+void timeShakerSort(int* a, int n, unsigned long long& comparisonNum, duration<double, milli>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     auto start = high_resolution_clock::now();
     // Run sort
     compShakerSort(temp, n, comparisonNum);
     auto end = high_resolution_clock::now();
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
     printArray(temp, n);
     delete[] temp;
 }
@@ -220,13 +220,13 @@ void compShellSort(int* &a, int n, unsigned long long &comparisonNum) {
     }
 }
 
-void timeShellSort(int* a, int n, unsigned long long &comparisonNum, duration<double>& timeCount) {
+void timeShellSort(int* a, int n, unsigned long long &comparisonNum, duration<double, milli>& timeCount) {
     int* temp = createTemp(a, n);
     auto start = high_resolution_clock::now();  
     compShellSort(temp, n ,comparisonNum);
     auto end = high_resolution_clock::now();  
 
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
         
     printArray(temp, n);
     delete[] temp;
@@ -282,14 +282,14 @@ void compHeapSort(int* a, int n, unsigned long long& comparisonNum) {
     }
 }
 // Time complex O(nlogn)
-void timeHeapSort(int* a, int n, unsigned long long& comparisonNum, duration<double>& timeCount) {
+void timeHeapSort(int* a, int n, unsigned long long& comparisonNum, duration<double, milli>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     auto start = high_resolution_clock::now();
     // Run sort
     compHeapSort(temp, n, comparisonNum);
     auto end = high_resolution_clock::now();
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
     printArray(temp, n);
     delete[] temp;
 }
@@ -364,13 +364,13 @@ void compMergeSort(int* a, int l, int r, unsigned long long &comparisonNum) {
     
 }
 
-void timeMergeSort(int* a, int n, unsigned long long &comparisonNum, duration<double>& timeCount) {
+void timeMergeSort(int* a, int n, unsigned long long &comparisonNum, duration<double, milli>& timeCount) {
     int* temp = createTemp(a, n);
     auto start = high_resolution_clock::now();  
     compMergeSort(temp, 0, n - 1, comparisonNum);
     auto end = high_resolution_clock::now();  
 
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
         
     printArray(temp, n);
     delete[] temp;
@@ -424,14 +424,14 @@ void compQuickSort(int* a, int low, int high, unsigned long long& comparisonNum)
     }
 }
 
-void timeQuickSort(int* a, int n, unsigned long long& comparisonNum, duration<double>& timeCount) {
+void timeQuickSort(int* a, int n, unsigned long long& comparisonNum, duration<double, milli>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     auto start = high_resolution_clock::now();
     // Run sort
     compQuickSort(temp,0, n - 1, comparisonNum);
     auto end = high_resolution_clock::now();
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
     printArray(temp, n);
     delete[] temp;
 }
@@ -488,14 +488,14 @@ void compCountingSort(int* a, int n, unsigned long long& comparisonNum)
     delete[] count_array;
 }
 
-void timeCountingSort(int* a, int n, unsigned long long& comparisonNum, chrono::duration<double>& timeCount) {
+void timeCountingSort(int* a, int n, unsigned long long& comparisonNum, chrono::duration<double, milli>& timeCount) {
     int* temp = new int[n];
     GenerateRandomData(temp, n);
     auto start = high_resolution_clock::now();
     // Run sort
     compCountingSort(temp, n, comparisonNum);
     auto end = high_resolution_clock::now();
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
     printArray(temp, n);
     
     delete[] temp;
@@ -548,13 +548,13 @@ void compRadixSort(int* a, int n, unsigned long long &comparisonNum) {
 	}
 }
 
-void timeRadixSort(int* a, int n, unsigned long long &comparisonNum, duration<double>& timeCount) {
+void timeRadixSort(int* a, int n, unsigned long long &comparisonNum, duration<double, milli>& timeCount) {
     int* temp = createTemp(a, n);
     auto start = high_resolution_clock::now();  
     compRadixSort(temp, n ,comparisonNum);
     auto end = high_resolution_clock::now();  
 
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
         
     printArray(temp, n);
     delete[] temp;
@@ -628,13 +628,13 @@ void compFlashSort(int* a, int n, unsigned long long &comparisonNum) {
 
 }
 
-void timeFlashSort(int* a, int n, unsigned long long &comparisonNum, duration<double>& timeCount) {
+void timeFlashSort(int* a, int n, unsigned long long &comparisonNum, duration<double, milli>& timeCount) {
     int* temp = createTemp(a, n);
     auto start = high_resolution_clock::now();  
     compFlashSort(temp, n ,comparisonNum);
     auto end = high_resolution_clock::now();  
 
-    timeCount = duration_cast<microseconds>(end - start);
+    timeCount = duration_cast<milliseconds>(end - start);
         
     printArray(temp, n);
     delete[] temp;
